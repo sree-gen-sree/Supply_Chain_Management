@@ -23,5 +23,38 @@ mapping(uint => string) public certificateHash;
     mapping(uint256 => actorsProfile) actor;
     mapping(uint256 => uint256) public certificatieCount;
 
+    function setActorProfile(
+        string memory _name,
+        uint256 _phone,
+        gender _actorGender,
+        string memory _actorAddress,
+        string memory _password,
+        string memory _actorType
+
+    ) public {
+        actor[_phone] = actorsProfile(
+            _name,
+            _phone,
+            _actorGender,
+            _actorAddress,
+            _password,
+            _actorType
+        );
+    }
+
+    function getActorProfile(uint256 _phone)
+        public
+        view
+        returns (
+            string memory _name,
+            gender _actorGender,
+            string memory _actorAddress
+        )
+    {
+        _name = actor[_phone].name;
+        _actorGender = actor[_phone].actorGender;
+        _actorAddress = actor[_phone].actorAddress;
+    }
+
 
 }
