@@ -12,4 +12,16 @@ mapping(uint => string) public certificateHash;
      function getCertificate(uint _id) public view returns (string memory _certificateHash ) {
        _certificateHash = certificateHash[_id] ;
     }
+    struct actorsProfile {
+        string name;
+        uint256 phone;
+        gender actorGender;
+        string actorAddress;
+        string password;
+        string actorType;
+    }
+
+
+
+
 }
