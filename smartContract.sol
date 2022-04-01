@@ -55,6 +55,46 @@ mapping(uint => string) public certificateHash;
         _actorGender = actor[_phone].actorGender;
         _actorAddress = actor[_phone].actorAddress;
     }
+    function getLogin(uint256 _phone)
+        public
+        view
+        returns (string memory _password, string memory _actorType)
+    {
+        _password = actor[_phone].password;
+        _actorType = actor[_phone].actorType;
+    }
+
+    string id;
+    address public previousOwner;
+    address public manufacturerAddress;
+
+    struct Product {
+        string name;
+        string quantity;
+        string ingredients;
+        bool initialized;
+        address[] owners;
+    }
+
+    mapping(string => Product) private ProductMap;
+
+    mapping(address => mapping(string => bool)) private OwnerMap;
+
+    event CreateProduct(address account, string uid, string ingredients);
+
+    event TransferProduct(address from, address to, string uid);
+
+    event RejectProduct(address from, string uid, string message);
+    event RejectTransfer(address from, string uid, string message);
+
+    constructor() public {
+        manufacturerAddress = msg.sender;
+    }
+
+    modifier onlyManufacturer() {
+        require(msg.sender == manufacturerAddress,"UnAuthorized Access");
+        _;
+    }
 
 
 }
