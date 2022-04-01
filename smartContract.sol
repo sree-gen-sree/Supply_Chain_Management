@@ -96,5 +96,51 @@ mapping(uint => string) public certificateHash;
         _;
     }
 
+function createProduct(
+        string memory _uid,
+        string memory _name,
+        string memory _quantity,
+        string memory _ingredients
+    ) public  {
+        if (!ProductMap[_uid].initialized) {
+            ProductMap[_uid] = Product(
+                _name,
+                _quantity,
+                _ingredients,
+                true,
+                new address[](0)
+            );
+
+            ProductMap[_uid].owners.push(msg.sender);
+
+            OwnerMap[msg.sender][_uid] = true;
+
+            emit CreateProduct(msg.sender, _uid, _ingredients);
+        } else {
+            emit RejectProduct(
+                msg.sender,
+                _uid,
+                "Product with given ID already exists"
+            );
+        }
+    }
+
+    function displayProduct(string memory _uid)
+        public
+        view
+        returns (
+            string memory _name,
+            string memory _quantity,
+            string memory _ingredients
+        )
+    {
+        if (ProductMap[_uid].initialized) {
+            return (
+                ProductMap[_uid].name,
+                ProductMap[_uid].quantity,
+                ProductMap[_uid].ingredients
+            );
+        }
+    }
 
 }
