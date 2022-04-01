@@ -142,5 +142,41 @@ function createProduct(
             );
         }
     }
+    function transferProduct(
+        address _from,
+        address payable _to,
+        string memory _uid
+    ) public payable {
+        require(
+            (ProductMap[_uid].initialized),
+            "No product with this unique ID exists"
+        );
+     
 
+
+        //transfering amount to _to address
+        _to.transfer(msg.value);
+
+        previousOwner = _from;
+
+        OwnerMap[msg.sender][_uid] = false;
+        OwnerMap[_from][_uid] = true;
+
+        ProductMap[_uid].owners.push(_from);
+        // The next owner's address pushed to owners array.
+        emit TransferProduct(msg.sender, _to, _uid);
+    }  
+
+    function displayOwner(string memory _uid)
+        public
+        view
+        returns (address[] memory owner)
+    {
+        if (ProductMap[_uid].initialized) {
+            return ProductMap[_uid].owners;
+        }
+    }
 }
+
+
+
