@@ -20,8 +20,8 @@ mapping(uint => string) public certificateHash;
         string password;
         string actorType;
     }
-
-
+    mapping(uint256 => actorsProfile) actor;
+    mapping(uint256 => uint256) public certificatieCount;
 
 
 }
