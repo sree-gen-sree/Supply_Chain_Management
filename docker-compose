@@ -1,0 +1,18 @@
+version: "3.5"
+services:
+  supplychain_backend:
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    depends_on: 
+      - Ganache
+    ports:
+      - "3000:3000"
+    command: sh -c "truffle migrate && npm start"
+  Ganache:
+    restart: on-failure
+    image: trufflesuite/ganache-cli
+    ports:
+      - 8545:8545
+    command: ganache-cli -i 5777
